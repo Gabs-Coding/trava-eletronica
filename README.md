@@ -1,4 +1,4 @@
-# Código Trava Digital
+# Trava Eletrônica
 
 ## Componentes Utilizados no Projeto do Código
 

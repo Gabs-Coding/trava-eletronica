@@ -8,8 +8,9 @@
 #include <SPI.h>
 #include <MFRC522.h>
 
-const int CS_PIN = 10; /**< Atribuição do pino 10 ao SPI slave select input (Pin 24, NSS, active low); */
-const int RPD_PIN = 9; /**< Atribuição do pino 0 ao pino de reset e power down input (Pin 6, NRSTPD, active low); */
+const int CS_PIN = 10; /**< Atribuição do pino vinculado ao SPI slave select input (Pin 24, NSS, active low); */
+const int RPD_PIN = 9; /**< Atribuição do pino vinculado ao reset e power down input (Pin 6, NRSTPD, active low); */
+const int ISR_PIN = 3; /**< Atribuição do pino vinculado a interrupção do botão que abrirá a trava solenoide. */
 const int ATIVACAO_TRAVA_PIN = 2; /**< Atribuição do pino 2 para abrir e fechar a trava; */
 const String CARTAO_CADASTRADO = "AL GU MC OD IG OO"; /**< Código UID do cartão cadastrado. */
 
@@ -21,6 +22,7 @@ void setup() {
 	SPI.begin(); /**< Iniciando o SPI BUS; */
 	leitor_cartao.PCD_Init(); /**< Iniciando a interface MFRC522 */
 	pinMode(ATIVACAO_TRAVA_PIN, OUTPUT); /**< Definindo o modo do pino ATIVACAO_TRAVA_PIN para saída; */
+	attachInterrupt(digitalPinToInterrupt(ISR_PIN), destravar_sem_cartao, HIGH);
 }
 
 void loop() {
@@ -53,8 +55,23 @@ void loop() {
 	}
 }
 
+
+/**
+ * @brief abre a trava solenoide por 3 segundos.
+ * @details muda o estado do pino "ATIVACAO_TRAVA_PIN" para "HIGH", aguarda 3 segundos e muda o estado do
+ * pino para "LOW" encerrando o procedimento.
+ */
 void abrirTrava() {
 	digitalWrite(ATIVACAO_TRAVA_PIN, HIGH); 
 	delay(3000);           
 	digitalWrite(ATIVACAO_TRAVA_PIN, LOW);  
+}
+
+/**
+ * @brief faz a chamada do procedimento "abrirTrava()".
+ * @warning pode haver um possível bug na chamada do procedimento "abrirTrava()", pois interrupções não 
+ * permitem o bom funcionamento do procedimento nativo "delay()".
+ */
+void destravar_sem_cartao() {
+	abrirTrava();
 }

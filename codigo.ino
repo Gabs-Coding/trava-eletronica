@@ -11,6 +11,7 @@
 const int CS_PIN = 10; /**< Atribuição do pino 10 ao SPI slave select input (Pin 24, NSS, active low); */
 const int RPD_PIN = 9; /**< Atribuição do pino 0 ao pino de reset e power down input (Pin 6, NRSTPD, active low); */
 const int ATIVACAO_TRAVA_PIN = 2; /**< Atribuição do pino 2 para abrir e fechar a trava; */
+const String CARTAO_CADASTRADO = "AL GU MC OD IG OO"; /**< Código UID do cartão cadastrado. */
 
 void setup() {
 	MFRC522 leitor_cartao(CS_PIN, RPD_PIN);
@@ -39,5 +40,11 @@ void loop() {
 		dados_lidos.concat(String(leitor_cartao.uid.uidByte[i] < 0x10 ? " 0" : " "));
 		dados_lidos.concat(String(leitor_cartao.uid.uidByte[i], HEX));
 	}
+	dados_lidos.toUpperCase();
+	if (conteudo.substring(1) == CARTAO_CADASTRADO) {
+    digitalWrite(ATIVACAO_TRAVA_PIN, HIGH); 
+    delay(3000);           
+    digitalWrite(ATIVACAO_TRAVA_PIN, LOW);  
+  }
 }
 

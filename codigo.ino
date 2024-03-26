@@ -44,11 +44,17 @@ void loop() {
 	dados_lidos.toUpperCase(); /**< Faz os caracteres alfabéticos lidos ficarem em caixa alta.*/
 	/**
 	 * @brief Lógica de checagem se os cartão lido está cadastrado.
+	 * @details Caso a validação seja bem sucedida, a trava será destrancada.
 	 */
 	if (dados_lidos.substring(1) == CARTAO_CADASTRADO) {
-    digitalWrite(ATIVACAO_TRAVA_PIN, HIGH); 
-    delay(3000);           
-    digitalWrite(ATIVACAO_TRAVA_PIN, LOW);  
-  }
+		abrirTrava();
+  } else {
+		return;
+	}
 }
 
+void abrirTrava() {
+	digitalWrite(ATIVACAO_TRAVA_PIN, HIGH); 
+	delay(3000);           
+	digitalWrite(ATIVACAO_TRAVA_PIN, LOW);  
+}

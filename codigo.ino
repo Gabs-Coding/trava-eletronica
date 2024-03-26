@@ -13,9 +13,10 @@ const int RPD_PIN = 9; /**< Atribuição do pino 0 ao pino de reset e power down
 const int ATIVACAO_TRAVA_PIN = 2; /**< Atribuição do pino 2 para abrir e fechar a trava; */
 const String CARTAO_CADASTRADO = "AL GU MC OD IG OO"; /**< Código UID do cartão cadastrado. */
 
+MFRC522 leitor_cartao(CS_PIN, RPD_PIN);
+String dados_lidos(""); /**< Variável que armazenará os dados lidos do cartão.*/
+
 void setup() {
-	MFRC522 leitor_cartao(CS_PIN, RPD_PIN);
-	String dados_lidos(""); /**< Variável que armazenará os dados lidos do cartão.*/
 	Serial.begin(9600); /**< Iniciando a porta serial; */
 	SPI.begin(); /**< Iniciando o SPI BUS; */
 	leitor_cartao.PCD_Init(); /**< Iniciando a interface MFRC522 */

@@ -40,8 +40,11 @@ void loop() {
 		dados_lidos.concat(String(leitor_cartao.uid.uidByte[i] < 0x10 ? " 0" : " "));
 		dados_lidos.concat(String(leitor_cartao.uid.uidByte[i], HEX));
 	}
-	dados_lidos.toUpperCase();
-	if (conteudo.substring(1) == CARTAO_CADASTRADO) {
+	dados_lidos.toUpperCase(); /**< Faz os caracteres alfabéticos lidos ficarem em caixa alta.*/
+	/**
+	 * @brief Lógica de checagem se os cartão lido está cadastrado.
+	 */
+	if (dados_lidos.substring(1) == CARTAO_CADASTRADO) {
     digitalWrite(ATIVACAO_TRAVA_PIN, HIGH); 
     delay(3000);           
     digitalWrite(ATIVACAO_TRAVA_PIN, LOW);  

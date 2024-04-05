@@ -52,7 +52,6 @@ void loop() {
 	 */
   Serial.print("UID da tag: ");
   String dados_lidos = "";
-  byte letra;
 	for (byte i = 0; i < leitor_cartao.uid.size; i++) {
 		Serial.print(leitor_cartao.uid.uidByte[i] < 0x10 ? " 0" : " ");
 		Serial.print(leitor_cartao.uid.uidByte[i], HEX);

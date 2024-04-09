@@ -12,7 +12,7 @@ const int CS_PIN = 10; /**< Atribuição do pino vinculado ao SPI slave select i
 const int RPD_PIN = 9; /**< Atribuição do pino vinculado ao reset e power down input (Pin 6, NRSTPD, active low); */
 const int BOTAO_ABRIR_PORTA = 3; /**< Atribuição do pino vinculado a interrupção do botão que abrirá a trava solenoide. */
 const int ATIVACAO_TRAVA_PIN = 2; /**< Atribuição do pino 2 para abrir e fechar a trava; */
-const int LED_PORTA_ABERTA = 4;
+const int LED_PORTA_ABERTA = 4; /**< Atribuição do pino 4 para ligar o LED verde e indicar quando a trava está aberta. */
 const String CARTAO_CADASTRADO("20 AE B5 56"); /**< Código UID do cartão cadastrado. */
 
 MFRC522 leitor_cartao(CS_PIN, RPD_PIN);
@@ -25,7 +25,8 @@ void setup() {
 	pinMode(ATIVACAO_TRAVA_PIN, OUTPUT); /**< Definindo o modo do pino ATIVACAO_TRAVA_PIN para saída; */
 	pinMode(LED_PORTA_ABERTA, OUTPUT);
   pinMode(BOTAO_ABRIR_PORTA, INPUT);
-	// attachInterrupt(digitalPinToInterrupt(ISR_PIN), destravar_sem_cartao, RISING);
+	/**v Declaração desnecessária, já que o procedimento que utilizava a interrupção foi descontinuado.*/
+	// attachInterrupt(digitalPinToInterrupt(ISR_PIN), destravar_sem_cartao, RISING); 
   Serial.println("Aproxime o cartão para leitura...");
   Serial.println();
 }
@@ -83,10 +84,13 @@ void abrirTrava() {
 	digitalWrite(LED_PORTA_ABERTA, LOW);
 }
 
+
 /**
  * @brief faz a chamada do procedimento "abrirTrava()".
  * @warning pode haver um possível bug na chamada do procedimento "abrirTrava()", pois interrupções não 
  * permitem o bom funcionamento do procedimento nativo "delay()".
+ * @deprecated Não precisamos utilizar uma interrupção, já que a baixa latência do tempo de leitura do 
+ * cartão é irrisório para o tempo de execução total do código. Retiramos esse procedimento dia 
  */
 void destravar_sem_cartao() {
 	abrirTrava();

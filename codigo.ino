@@ -13,7 +13,8 @@ const int RPD_PIN = 9; /**< Atribuição do pino vinculado ao reset e power down
 const int BOTAO_ABRIR_PORTA = 3; /**< Atribuição do pino vinculado a interrupção do botão que abrirá a trava solenoide. */
 const int ATIVACAO_TRAVA_PIN = 2; /**< Atribuição do pino 2 para abrir e fechar a trava; */
 const int LED_PORTA_ABERTA = 4; /**< Atribuição do pino 4 para ligar o LED verde e indicar quando a trava está aberta. */
-const String CARTAO_CADASTRADO("20 AE B5 56"); /**< Código UID do cartão cadastrado. */
+/**v Variável descontinuada.*/
+// const String CARTAO_CADASTRADO("20 AE B5 56"); /**< Código UID do cartão cadastrado. */ 
 
 MFRC522 leitor_cartao(CS_PIN, RPD_PIN);
 //String dados_lidos(""); /**< Variável que armazenará os dados lidos do cartão.*/
@@ -33,8 +34,8 @@ void setup() {
 
 void loop() {
 	/**
-	 * Verificando se: 1 não há um cartão sem cadastro sendo lido; 2 não há dados de um cartão sendo
-   * lidos.
+	 * Verificando se: 1 botão que abre sem o cartão está pressionado; 2 não há um cartão sem cadastro sendo lido; 3 não há
+	 * dados de um cartão sendo lidos.
    */
   if (digitalRead(BOTAO_ABRIR_PORTA)) {
     abrirTrava();
